@@ -7,18 +7,22 @@ Json schema for the game
 
 
 ### Actions schema
+```
 {
     id: id of the action,
     name: name of the action,
     type: type of the action
 }
+```
 
 ### Game schema
+```
 {
     id: id of the game,
     name: name of the game,
     asset_path: path to the assets used in the game
 }
+```
 
 ### Level schema
 ```
