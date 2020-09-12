@@ -24,12 +24,15 @@ let App = function(canvasWidth, canvasHeight, rows, cols) {
         document.getElementById("start").addEventListener("click", this.handlers.toggleMode)
         document.getElementById("end").addEventListener("click", this.handlers.toggleMode)
 
-
+        console.log("init app ")
         fetch("/data/actions.json")
-        .then(json => {
-            console.log(json)
+        .then(res => res.json())
+        .then(data => {
+            this.actions = data.actions
+            console.log("fetched")
+            console.log(this.actions)
+            this.renderApp()
         })
-        this.renderApp()
     }
 
     this.renderApp = () => {
@@ -39,23 +42,32 @@ let App = function(canvasWidth, canvasHeight, rows, cols) {
             blockWidth = this.canvasWidth/this.cols
         this.textArea.value = JSON.stringify(this.levelJson)
 
-        for(let i =0 ;i<this.rows;i++) {
-            let row = document.createElement("div")
-            row.classList = "row"
-            for(let j =0;j<this.cols; j++) {
-                let block = document.createElement("div")
-                block.id = `b_${i}_${j}`
-                block.classList = "block"
-                block.style.width = `${blockWidth}px`
-                block.style.height = `${blockHeight}px`
-                block.style.border = "1px solid black"
-                block.style.backgroundColor = "#ffffff"
-                block.addEventListener("click", this.handlers.handleCanvasBoxClick)
-                row.appendChild(block)
+        if(document.getElementsByClassName("row").length <1 ) {
+            for(let i =0 ;i<this.rows;i++) {
+                let row = document.createElement("div")
+                row.classList = "row"
+                for(let j =0;j<this.cols; j++) {
+                    let block = document.createElement("div")
+                    block.id = `b_${i}_${j}`
+                    block.classList = "block"
+                    block.style.width = `${blockWidth}px`
+                    block.style.height = `${blockHeight}px`
+                    block.style.border = "1px solid black"
+                    block.style.backgroundColor = "#ffffff"
+                    block.addEventListener("click", this.handlers.handleCanvasBoxClick)
+                    row.appendChild(block)
+                }
+                canvas.appendChild(row)
             }
-            canvas.appendChild(row)
-        }
 
+            let actionSelect = document.getElementById("actions")
+            this.actions.forEach(action => {
+                console.log(action)
+                let option = document.createElement("option")
+                option.innerHTML = action.name
+                actionSelect.appendChild(option)
+            })
+        }
 
     },
 
@@ -97,10 +109,18 @@ let App = function(canvasWidth, canvasHeight, rows, cols) {
         },
         toggleMode: (e) => {
             this.drawMode = e.currentTarget.id
+        },
+        addAction: (e) => {
+
+        },
+        removeAction:(e) => {
+            
         }
     }
 }
 
+{function() {
 
+}()}
 const app = new App(300, 300, 5, 5)
 app.initApp()
