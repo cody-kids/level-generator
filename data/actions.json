@@ -1,0 +1,48 @@
+{
+    "actions": [
+        {
+            "id": 1,
+            "name": "Move left",
+            "type": "direction",
+            "direction": "L",
+            "changeValue": 1,
+            "isActive": true
+        }, {
+            "id": 2,
+            "name": "Move right",
+            "type": "direction",
+            "direction": "R",
+            "changeValue": 1,
+            "isActive": true
+        }, {
+            "id": 3,
+            "name": "Move up",
+            "type": "direction",
+            "direction": "U",
+            "changeValue": 1,
+            "isActive": true
+        }, {
+            "id": 4,
+            "name": "Move down",
+            "type": "direction",
+            "direction": "D",
+            "changeValue": 1,
+            "isActive": true
+        }, {
+            "id": 5,
+            "name": "Rotate Left",
+            "type": "rotate",
+            "direction": "L",
+            "changeValue": 1,
+            "isActive": true
+        }, {
+            "id": 6,
+            "name": "Rotate right",
+            "type": "rotate",
+            "direction": "R",
+            "changeValue": 1,
+            "isActive": true
+        }
+
+    ]
+}

@@ -5,7 +5,6 @@ Free coding puzzles for kids
 ## Json schema
 Json schema for the game
 
-
 ### Actions schema
 ```
 {

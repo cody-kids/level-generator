@@ -1,0 +1,23 @@
+{
+  "name": "level-generator",
+  "version": "1.0.0",
+  "description": "Free coding puzzles for kids",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cody-kids/level-generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cody-kids/level-generator/issues"
+  },
+  "homepage": "https://github.com/Cody-kids/level-generator#readme",
+  "dependencies": {
+    "blockly": "^3.20200625.2",
+    "scratch-blocks": "0.1.0-prerelease.20200721135911"
+  }
+}
