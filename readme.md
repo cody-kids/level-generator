@@ -1,6 +1,22 @@
 # Level generator for cody kids app
 Free coding puzzles for kids
 
+## How to run it locally
+
+### Installation
+Clone the repository & install packages
+
+```
+git clone https://github.com/cody-kids/level-generator.git
+cd level-generator
+npm i
+```
+
+
+### Run the project 
+```
+npm run dev
+```
 
 ## Json schema
 Json schema for the game
@@ -10,7 +26,9 @@ Json schema for the game
 {
     id: id of the action,
     name: name of the action,
-    type: type of the action
+    type: type of the action,
+    direction: direction of the action,
+    changeValue: the change in value after the action is invoked,
 }
 ```
 
