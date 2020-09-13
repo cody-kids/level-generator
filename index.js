@@ -20,17 +20,16 @@ let App = function(canvasWidth, canvasHeight, rows, cols) {
     this.drawMode = "safe"
 
     this.initApp = () => {
+        console.log("init")
         document.getElementById("safe").addEventListener("click", this.handlers.toggleMode)
         document.getElementById("start").addEventListener("click", this.handlers.toggleMode)
         document.getElementById("end").addEventListener("click", this.handlers.toggleMode)
-
-        console.log("init app ")
+        document.getElementById("actions").addEventListener("change", this.handlers.addAction, )
+        document.getElementById("levelName").addEventListener("keyup", this.handlers.changeLevelName)
         fetch("/data/actions.json")
         .then(res => res.json())
         .then(data => {
             this.actions = data.actions
-            console.log("fetched")
-            console.log(this.actions)
             this.renderApp()
         })
     }
@@ -42,13 +41,14 @@ let App = function(canvasWidth, canvasHeight, rows, cols) {
             blockWidth = this.canvasWidth/this.cols
         this.textArea.value = JSON.stringify(this.levelJson)
 
-        if(document.getElementsByClassName("row").length <1 ) {
+        if(document.getElementsByClassName("block").length < 1 ) {
+            console.log("rendering")
             for(let i =0 ;i<this.rows;i++) {
                 let row = document.createElement("div")
                 row.classList = "row"
                 for(let j =0;j<this.cols; j++) {
                     let block = document.createElement("div")
-                    block.id = `b_${i}_${j}`
+                    block.id = `${i}_${j}`
                     block.classList = "block"
                     block.style.width = `${blockWidth}px`
                     block.style.height = `${blockHeight}px`
@@ -57,18 +57,19 @@ let App = function(canvasWidth, canvasHeight, rows, cols) {
                     block.addEventListener("click", this.handlers.handleCanvasBoxClick)
                     row.appendChild(block)
                 }
-                canvas.appendChild(row)
+                this.canvas.appendChild(row)
             }
 
             let actionSelect = document.getElementById("actions")
             this.actions.forEach(action => {
-                console.log(action)
                 let option = document.createElement("option")
                 option.innerHTML = action.name
+                option.value = action.id
                 actionSelect.appendChild(option)
+
+
             })
         }
-
     },
 
     this.updateApp = () => {
@@ -111,16 +112,41 @@ let App = function(canvasWidth, canvasHeight, rows, cols) {
             this.drawMode = e.currentTarget.id
         },
         addAction: (e) => {
-
+            e.preventDefault()
+                let action = this.actions.find(action => action.id == e.target.value)
+                let isActionSaved = this.levelJson.actions.find(act => action.id == act.id)
+                if (!isActionSaved) {
+                    this.levelJson.actions.push(action)
+                    let actionList = document.getElementById("action-list")
+                    let listItem = document.createElement("li")
+                    listItem.classList = "list-group-item"
+                    listItem.innerHTML = action.name
+                    let deleteBtn = document.createElement("button")
+                    deleteBtn.classList = "btn btn-danger"
+                    deleteBtn.innerHTML = "x"
+                    deleteBtn.addEventListener("click", (e) => this.handlers.removeAction(e, action.id))
+                    listItem.appendChild(deleteBtn)
+                    actionList.appendChild(listItem)
+                    this.updateApp()
+                }
+                
         },
-        removeAction:(e) => {
-            
+        removeAction:(e, id) => {
+            e.preventDefault()
+            e.currentTarget.parentNode.remove()
+            this.levelJson.actions = this.levelJson.actions.filter(action=> action.id != id)
+            this.updateApp()
+        },
+        changeLevelName: (e) => {
+            e.preventDefault()
+            this.levelJson.name = e.currentTarget.value
+            this.updateApp()
         }
     }
 }
 
-{function() {
-
-}()}
-const app = new App(300, 300, 5, 5)
-app.initApp()
+window.onload = (e)=> {
+    const app = new App(300, 300, 5, 5)
+    app.initApp()
+}
+console.log("here")
